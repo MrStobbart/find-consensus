@@ -9,13 +9,13 @@ export type Survey = {
 
 export type Option = {
   name: string;
-  votes: Vote[];
+  votes: Votes;
 };
 
-export type Vote = {
-  userName: string;
-  value: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-};
+export type userName = string;
+export type Votes = Record<userName, Vote>;
+
+export type Vote = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 export type ServerResponse<T = undefined> =
   | {
