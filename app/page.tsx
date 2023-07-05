@@ -4,8 +4,10 @@ import { Input, Button } from "antd";
 import { useState } from "react";
 import { useFetch } from "./clientHelpers";
 import { Survey } from "./types";
+import { useRouter } from "next/navigation";
 
 export default function StartPage() {
+  const router = useRouter();
   const [surveyName, setSurveyName] = useState("");
 
   const { data, isLoading } = useFetch<Survey[]>({
@@ -41,7 +43,7 @@ export default function StartPage() {
             <Button
               key={survey.name + index}
               onClick={() => {
-                console.log("TODO open survey", survey);
+                router.push(`/survey/${survey.name}`);
               }}
             >
               {survey.name}
