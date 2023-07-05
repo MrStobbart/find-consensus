@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useFetch } from "./clientHelpers";
 import { Survey } from "./types";
 import { useRouter } from "next/navigation";
-import { Input, Button } from "antd";
+// import { Input, Button } from "antd";
 
 export default function StartPage() {
   const router = useRouter();
@@ -17,12 +17,12 @@ export default function StartPage() {
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <Input
+      <input
         placeholder="Title of your survey"
         value={surveyName}
         onChange={(e) => setSurveyName(e.target.value)}
       />
-      <Button
+      <button
         title="Create survey"
         onClick={() => {
           fetch("/api/survey/create?name=" + surveyName)
@@ -33,21 +33,21 @@ export default function StartPage() {
         }}
       >
         Create survey
-      </Button>
+      </button>
       {isLoading ? (
         <p>Loading existing surveys...</p>
       ) : (
         <div>
           <p>Current Surveys:</p>
           {surveys.map((survey, index) => (
-            <Button
+            <button
               key={survey.name + index}
               onClick={() => {
                 router.push(`/survey/${survey.name}`);
               }}
             >
               {survey.name}
-            </Button>
+            </button>
           ))}
         </div>
       )}
