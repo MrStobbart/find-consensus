@@ -6,13 +6,13 @@ export function createResponse<T = undefined>(
 ): ServerResponse<T> {
   if (data) {
     return {
-      successful: true,
+      ok: true,
       message,
       data,
     };
   }
   return {
-    successful: false,
+    ok: false,
     message,
   };
 }

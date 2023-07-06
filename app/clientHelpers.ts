@@ -13,7 +13,7 @@ export function useFetch<T>({ url }: { url: string }) {
     fetch(url)
       .then((res) => res.json())
       .then((response: ServerResponse<T>) => {
-        if (response.successful) {
+        if (response.ok) {
           setData(response.data);
         }
         setMessage(response.message);
