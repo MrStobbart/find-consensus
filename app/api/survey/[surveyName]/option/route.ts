@@ -3,7 +3,7 @@ import { PostSurveyRequestBody } from "../../route";
 import { createResponse } from "../../../../helpers";
 import { kv } from "@vercel/kv";
 import { Option, getOptionsKey } from "../../../../types";
-import { getOptions } from "../options/route";
+import { getOptions } from "../../../apiHelpers";
 
 export type PostOptionRequestBody = { optionName: string };
 

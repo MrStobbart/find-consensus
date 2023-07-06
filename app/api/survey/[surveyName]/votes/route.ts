@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createResponse } from "../../../../helpers";
-import { getUsers } from "../users/route";
-import { getVotes } from "../[userName]/votes/route";
+import { getUsers, getVotes } from "../../../apiHelpers";
 
 export async function GET(
   request: Request,

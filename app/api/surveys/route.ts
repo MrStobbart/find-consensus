@@ -3,11 +3,7 @@ import { kv } from "@vercel/kv";
 import { Option, Survey, getOptionsKey } from "../../types";
 import { surveysKey } from "../../redisKeys";
 import { createResponse } from "../../helpers";
-
-export const getSurveys = async () => {
-  const surveys = await kv.lrange<Survey>(surveysKey, -20, -1);
-  return surveys.reverse();
-};
+import { getSurveys } from "../apiHelpers";
 
 export async function GET() {
   const surveys = await getSurveys();

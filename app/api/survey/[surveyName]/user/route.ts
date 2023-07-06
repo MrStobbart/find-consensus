@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { PostSurveyRequestBody } from "../../route";
 import { createResponse } from "../../../../helpers";
 import { kv } from "@vercel/kv";
 import {
@@ -8,8 +7,7 @@ import {
   getOptionsKey,
   getSurveyUsersKey,
 } from "../../../../types";
-import { getOptions } from "../options/route";
-import { getUsers } from "../users/route";
+import { getUsers } from "../../../apiHelpers";
 
 export type PostUserRequestBody = { userName: string };
 

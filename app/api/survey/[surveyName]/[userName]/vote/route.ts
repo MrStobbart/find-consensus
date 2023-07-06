@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { kv } from "@vercel/kv";
-import { getVotes } from "../votes/route";
 import { createResponse } from "../../../../../helpers";
 import { Vote, VoteValue, Votes, getVotesKey } from "../../../../../types";
+import { getVotes } from "../../../../apiHelpers";
 
 export type PutVoteRequestBody = { value: number; optionName: string };
 

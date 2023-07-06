@@ -3,7 +3,7 @@ import { kv } from "@vercel/kv";
 import { createResponse } from "../../helpers";
 import { Survey } from "../../types";
 import { getSurveyIndexKey, surveysKey } from "../../redisKeys";
-import { getSurveys } from "../surveys/route";
+import { getSurveys } from "../apiHelpers";
 
 export type PostSurveyRequestBody = { name: string };
 

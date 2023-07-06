@@ -1,16 +1,6 @@
-import { kv } from "@vercel/kv";
-import { SurveyUser, getSurveyUsersKey } from "../../../../types";
 import { NextResponse } from "next/server";
 import { createResponse } from "../../../../helpers";
-
-export const getUsers = async (surveyName: string) => {
-  const users = await kv.lrange<SurveyUser>(
-    getSurveyUsersKey(surveyName),
-    0,
-    -1
-  );
-  return users.reverse();
-};
+import { getUsers } from "../../../apiHelpers";
 
 export async function GET(
   request: Request,
