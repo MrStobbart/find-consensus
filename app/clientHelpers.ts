@@ -15,7 +15,7 @@ export function useFetch<T>({
 
   useEffect(() => {
     setLoading(true);
-    fetch(url)
+    fetch(url, { cache: "no-cache" })
       .then((res) => res.json())
       .then((response: ServerResponse<T>) => {
         if (response.ok) {
@@ -42,6 +42,7 @@ export function sendData<Req, ResponseData>({
   fetch(url, {
     method,
     body: JSON.stringify(body),
+    cache: "no-cache",
   })
     .then((res) => res.json())
     .then((response: ServerResponse<ResponseData>) => {
