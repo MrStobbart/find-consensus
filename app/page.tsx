@@ -1,20 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { useFetch } from "./clientHelpers";
+import { useEffect, useState } from "react";
+import { sendData, useFetch } from "./clientHelpers";
 import { Survey } from "./types";
 import Button from "antd/es/button";
 import Input from "antd/es/input";
 import { useRouter } from "next/navigation";
+import { PostSurveyRequestBody } from "./api/survey/route";
 
 export default function StartPage() {
   const router = useRouter();
   const [surveyName, setSurveyName] = useState("");
+  const [surveys, setSurveys] = useState<Survey[]>([]);
 
-  const { data, isLoading } = useFetch<Survey[]>({
+  const [isLoading] = useFetch<Survey[]>({
     url: "/api/surveys",
+    setData: setSurveys,
   });
-  const surveys = data || [];
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -26,11 +28,13 @@ export default function StartPage() {
       <Button
         title="Create survey"
         onClick={() => {
-          fetch("/api/survey/create?name=" + surveyName)
-            .then((res) => res.json())
-            .then((r) => console.log(r))
-            .catch((e) => console.log(e));
-          console.log("Create survey");
+          const body: PostSurveyRequestBody = { name: surveyName };
+          sendData({
+            url: "/api/survey",
+            method: "POST",
+            body,
+            setData: setSurveys,
+          });
         }}
       >
         Create survey
@@ -44,7 +48,7 @@ export default function StartPage() {
             <Button
               key={survey.name + index}
               onClick={() => {
-                router.push(`/survey/${survey.name}/voting`);
+                router.push(`/survey/${survey.name}`);
               }}
             >
               {survey.name}
