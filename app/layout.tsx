@@ -1,8 +1,6 @@
 import "antd/dist/reset.css";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import ConfigProvider from "antd/es/config-provider";
-import theme from "antd/es/theme";
 import StyledComponentsRegistry from "./AntdRegistry";
 
 const inter = Inter({ subsets: ["latin"] });

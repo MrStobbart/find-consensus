@@ -2,15 +2,34 @@
 
 import { StyleProvider, createCache, extractStyle } from "@ant-design/cssinjs";
 import ConfigProvider from "antd/es/config-provider";
-import { useServerInsertedHTML } from "next/navigation";
+import { useRouter, useServerInsertedHTML } from "next/navigation";
 import React from "react";
 import theme from "./themeConfig";
+import Layout from "antd/es/layout";
+import Space from "antd/es/space";
+import { Content, Footer, Header } from "antd/es/layout/layout";
+import Menu from "antd/es/menu";
+import Button from "antd/es/button";
+import Divider from "antd/es/divider";
+import Row from "antd/es/row";
+import Col from "antd/es/col";
+
+const headerStyle: React.CSSProperties = {
+  textAlign: "center",
+  height: 64,
+};
+
+const contentStyle: React.CSSProperties = {
+  textAlign: "center",
+  minHeight: 120,
+};
 
 const StyledComponentsRegistry = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
+  const router = useRouter();
   const cache = createCache();
   useServerInsertedHTML(() => (
     <style
@@ -20,7 +39,47 @@ const StyledComponentsRegistry = ({
   ));
   return (
     <StyleProvider cache={cache}>
-      <ConfigProvider theme={theme}>{children}</ConfigProvider>
+      <ConfigProvider theme={theme}>
+        <Row
+          style={{
+            width: "100%",
+            backgroundColor: "lightsalmon",
+            minHeight: "100%",
+          }}
+          justify="center"
+        >
+          <Col>
+            <Row
+              style={{
+                width: "576px",
+                backgroundColor: "lightcyan",
+              }}
+              justify="center"
+            >
+              <Col
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  minHeight: "100vh",
+                  padding: "16px",
+                }}
+              >
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={() => {
+                    router.push(`/`);
+                  }}
+                >
+                  View all surveys
+                </Button>
+                <Divider />
+                {children}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </ConfigProvider>
     </StyleProvider>
   );
 };
