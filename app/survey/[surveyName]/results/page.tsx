@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { useFetch } from "../../../clientHelpers";
 import { Options, Votes } from "../../../types";
+import Title from "antd/es/typography/Title";
+import Row from "antd/es/row";
+import Col from "antd/es/col";
+import Divider from "antd/es/divider";
+import Button from "antd/es/button";
+import { oppositions } from "../voting/[userName]/optionVote";
+import Paragraph from "antd/es/typography/Paragraph";
 
 export default function Results({
   params: { surveyName },
@@ -23,20 +30,68 @@ export default function Results({
 
   if (isLoadingVotes || isLoadingOptions) return <p>Loading votes...</p>;
 
-  return options.map((option) => {
-    const votesForOption = votes
-      .filter((vote) => vote.optionName === option.name)
-      .map((vote) => vote.value);
+  const optionsWithResults = options
+    .map((option) => {
+      const votesForOption = votes
+        .filter((vote) => vote.optionName === option.name)
+        .map((vote) => vote.value);
 
-    const average =
-      votesForOption.reduce((prev, curr) => prev + curr, 0) /
-      votesForOption.length;
-    return (
-      <div key={option.name}>
-        <p>Option name: {option.name}</p>
-        <p>Average: {average}</p>
-        <p>Values: {votesForOption.join(", ")}</p>
-      </div>
-    );
-  });
+      const hasVotes = votesForOption.length > 0;
+
+      const average = hasVotes
+        ? votesForOption.reduce((prev, curr) => prev + curr, 0) /
+          votesForOption.length
+        : 10;
+      return {
+        name: option.name,
+        average,
+        votesForOption,
+        hasVotes,
+      };
+    })
+    .sort((prev, next) => prev.average - next.average);
+
+  // TODO maybe show missing participants here
+  return (
+    <>
+      <Row>
+        <Col span={8}>
+          <Title level={5}>Option name</Title>{" "}
+        </Col>
+        <Col span={8}>
+          <Title level={5}>Average</Title>{" "}
+        </Col>
+        <Col span={8}>
+          <Title level={5}>Votes</Title>
+        </Col>
+      </Row>
+
+      {optionsWithResults.map(({ name, average, votesForOption, hasVotes }) => {
+        return (
+          <div key={name}>
+            <Divider />
+            <Row>
+              <Col span={8}>{name}</Col>
+              <Col span={8}>
+                {hasVotes ? (
+                  <Button
+                    size="small"
+                    style={{
+                      color: oppositions.find(({ value }) => average <= value)
+                        ?.color,
+                    }}
+                  >
+                    {Math.round(average * 10) / 10}
+                  </Button>
+                ) : (
+                  <Paragraph>No votes</Paragraph>
+                )}
+              </Col>
+              <Col span={8}>{votesForOption.join(", ")}</Col>
+            </Row>
+          </div>
+        );
+      })}
+    </>
+  );
 }

@@ -12,6 +12,7 @@ import Space from "antd/es/space";
 import Row from "antd/es/row";
 import Col from "antd/es/col";
 import Divider from "antd/es/divider";
+import { TextInput } from "../../components/TextInput";
 const { Title, Paragraph } = Typography;
 
 export default function SurveyComponent({
@@ -20,8 +21,6 @@ export default function SurveyComponent({
   params: { surveyName: string };
 }) {
   const [surveyUsers, setSurveyUsers] = useState<SurveyUsers>();
-  const [newUserName, setNewUserName] = useState<string>("");
-  const [inputHasError, setInputHasError] = useState(false);
   const router = useRouter();
 
   const [isLoading, message] = useFetch<SurveyUsers | undefined>({
@@ -33,6 +32,22 @@ export default function SurveyComponent({
     <>
       <Title level={4}>Survey: {decodeURI(surveyName)}</Title>
       <Divider />
+      <TextInput
+        title="Create new participant"
+        inputPlaceholder="Name of participant"
+        onClick={(newValue) => {
+          const body: PostUserRequestBody = {
+            userName: newValue,
+          };
+          sendData({
+            url: `/api/survey/${surveyName}/user`,
+            method: "POST",
+            body,
+            setData: setSurveyUsers,
+          });
+        }}
+      />
+      <Divider />
       <Title level={5}>Participants</Title>
       {isLoading ? (
         <Paragraph>Loading participants...</Paragraph>
@@ -40,56 +55,20 @@ export default function SurveyComponent({
         !surveyUsers && <Paragraph>Something went wrong: {message}</Paragraph>
       )}
       {surveyUsers && (
-        <Row gutter={[8, 8]}>
+        <Space direction="vertical">
           {surveyUsers.map(({ name }) => (
-            <Col key={name}>
-              <Button
-                onClick={() => {
-                  router.push(`/survey/${surveyName}/voting/${name}`);
-                }}
-              >
-                {name}
-              </Button>
-            </Col>
+            <Button
+              key={name}
+              block={true}
+              onClick={() => {
+                router.push(`/survey/${surveyName}/voting/${name}`);
+              }}
+            >
+              {name}
+            </Button>
           ))}
-        </Row>
+        </Space>
       )}
-      <Divider />
-      <Space direction="vertical">
-        <Title level={5}>Create new participant</Title>
-        <Input
-          placeholder="Name of participant"
-          value={newUserName}
-          onChange={({ target: { value } }) => {
-            setNewUserName(value);
-            if (value.length > 0) {
-              setInputHasError(false);
-            }
-          }}
-          status={inputHasError ? "error" : undefined}
-        />
-        <Button
-          title="Create a new participant"
-          onClick={() => {
-            if (newUserName.length > 0) {
-              const body: PostUserRequestBody = {
-                userName: newUserName,
-              };
-              sendData({
-                url: `/api/survey/${surveyName}/user`,
-                method: "POST",
-                body,
-                setData: setSurveyUsers,
-              });
-              setNewUserName("");
-            } else {
-              setInputHasError(true);
-            }
-          }}
-        >
-          Create
-        </Button>
-      </Space>
       <Divider />
       <Button
         title="View Results"

@@ -18,13 +18,17 @@ import {
 import { sendData, useFetch } from "../../../../clientHelpers";
 import { PostOptionRequestBody } from "../../../../api/survey/[surveyName]/option/route";
 import OptionVote from "./optionVote";
+import Divider from "antd/es/divider";
+import Space from "antd/es/space";
+import Title from "antd/es/typography/Title";
+import { TextInput } from "../../../../components/TextInput";
+import Paragraph from "antd/es/typography/Paragraph";
 
 export default function SurveyVoting({
   params: { surveyName, userName },
 }: {
   params: { surveyName: string; userName: string };
 }) {
-  const [newOptionName, setNewOptionName] = useState("");
   const [options, setOptions] = useState<Options>([]);
   const [votes, setVotes] = useState<Votes>([]);
 
@@ -38,49 +42,37 @@ export default function SurveyVoting({
     setData: setVotes,
   });
 
-  console.log({ votes });
-
-  const addOption = () => {
-    if (newOptionName.length > 0) {
-      const body: PostOptionRequestBody = { optionName: newOptionName };
-      sendData({
-        url: `/api/survey/${surveyName}/option`,
-        method: "POST",
-        body,
-        setData: setOptions,
-      });
-
-      setNewOptionName("");
-    } else {
-      console.error("Provide a name first");
-    }
-  };
-
   return (
     <>
+      <TextInput
+        title="Create a new option"
+        inputPlaceholder="Name of the option"
+        onClick={(newValue) => {
+          const body: PostOptionRequestBody = { optionName: newValue };
+          sendData({
+            url: `/api/survey/${surveyName}/option`,
+            method: "POST",
+            body,
+            setData: setOptions,
+          });
+        }}
+      />
       {isLoading || isLoadingVotes ? (
-        <p>Loading...</p>
+        <Paragraph>Loading...</Paragraph>
       ) : (
         options.map((option, index) => (
-          <OptionVote
-            key={option.name + index}
-            surveyName={surveyName}
-            userName={userName}
-            option={option}
-            votes={votes}
-            setVotes={setVotes}
-          />
+          <div key={option.name + index}>
+            <Divider />
+            <OptionVote
+              surveyName={surveyName}
+              userName={userName}
+              option={option}
+              votes={votes}
+              setVotes={setVotes}
+            />
+          </div>
         ))
       )}
-
-      <Row>
-        <Input
-          placeholder="Name of the option"
-          value={newOptionName}
-          onChange={(e) => setNewOptionName(e.target.value)}
-        />
-        <Button onClick={() => addOption()}>Create Option</Button>
-      </Row>
     </>
   );
 }

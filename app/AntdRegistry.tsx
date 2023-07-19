@@ -13,6 +13,7 @@ import Button from "antd/es/button";
 import Divider from "antd/es/divider";
 import Row from "antd/es/row";
 import Col from "antd/es/col";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
@@ -64,15 +65,33 @@ const StyledComponentsRegistry = ({
                   padding: "16px",
                 }}
               >
-                <Button
-                  type="primary"
-                  size="large"
-                  onClick={() => {
-                    router.push(`/`);
-                  }}
-                >
-                  View all surveys
-                </Button>
+                <Space>
+                  <Button
+                    icon={<LeftOutlined />}
+                    type="primary"
+                    size="large"
+                    onClick={() => {
+                      router.back();
+                    }}
+                  />
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={() => {
+                      router.push(`/`);
+                    }}
+                  >
+                    View all surveys
+                  </Button>
+                  <Button
+                    icon={<RightOutlined />}
+                    type="primary"
+                    size="large"
+                    onClick={() => {
+                      router.forward();
+                    }}
+                  />
+                </Space>
                 <Divider />
                 {children}
               </Col>

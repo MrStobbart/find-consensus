@@ -14,7 +14,7 @@ type Opposition = {
   //   tooltip: string; // TODO
 };
 
-const oppositions: Opposition[] = [
+export const oppositions: Opposition[] = [
   { value: 0, color: "#78BE14" },
   { value: 1, color: "#86B712" },
   { value: 2, color: "#93B010" },
@@ -45,11 +45,12 @@ export default function OptionVote({
 }: OptionVoteProps) {
   const vote = votes.find((vote) => vote.optionName === option.name);
   return (
-    <Row>
+    <Row style={{ alignItems: "center" }}>
       <Col span={6}>{option.name}</Col>
       <Col span={18}>
         <div>
           <Radio.Group
+            size="small"
             value={vote?.value}
             onChange={(e) => {
               const newValue = parseInt(e.target.value);
@@ -66,11 +67,7 @@ export default function OptionVote({
             }}
           >
             {oppositions.map(({ value, color }) => (
-              <Radio.Button
-                value={value}
-                key={value}
-                style={{ backgroundColor: color }}
-              >
+              <Radio.Button value={value} key={value} style={{ color: color }}>
                 {value}
               </Radio.Button>
             ))}
