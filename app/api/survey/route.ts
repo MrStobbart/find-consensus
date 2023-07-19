@@ -5,7 +5,7 @@ import { Survey } from "../../types";
 import { getSurveyIndexKey, surveysKey } from "../../redisKeys";
 import { getSurveys } from "../apiHelpers";
 
-export type PostSurveyRequestBody = { name: string };
+export type PostSurveyRequestBody = Survey;
 
 export async function POST(request: Request) {
   const { name }: PostSurveyRequestBody = await request.json();
