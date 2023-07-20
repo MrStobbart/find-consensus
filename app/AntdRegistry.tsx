@@ -52,7 +52,8 @@ const StyledComponentsRegistry = ({
           <Col>
             <Row
               style={{
-                width: "576px",
+                width: "100vw",
+                maxWidth: "576px",
                 backgroundColor: "lightcyan",
               }}
               justify="center"
