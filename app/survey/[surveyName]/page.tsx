@@ -72,6 +72,7 @@ export default function SurveyComponent({
       <Divider />
       <Button
         title="View Results"
+        type="primary"
         onClick={() => {
           router.push(`/survey/${surveyName}/results`);
         }}

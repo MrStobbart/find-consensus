@@ -8,6 +8,7 @@ import { Dispatch, SetStateAction } from "react";
 import { sendData } from "../../../../clientHelpers";
 import { PutVoteRequestBody } from "../../../../api/survey/[surveyName]/[userName]/vote/route";
 import Paragraph from "antd/es/typography/Paragraph";
+import { Space } from "antd";
 
 type Opposition = {
   value: VoteValue;
@@ -47,45 +48,44 @@ export default function OptionVote({
   console.log(votes);
 
   const voteIndex = votes.findIndex((vote) => vote.optionName === option.name);
-  // TODO make the radio style better on mobile
+  const currentVoteValue = votes[voteIndex]?.value;
+
+  const setData = (newValue: number) => {
+    const body: PutVoteRequestBody = {
+      optionName: option.name,
+      value: newValue,
+    };
+    sendData({
+      url: `/api/survey/${surveyName}/${userName}/vote`,
+      method: "PUT",
+      body,
+      setData: setVotes,
+      clientUpdater: (oldData, newValue) => {
+        const updatedData = [...oldData];
+        updatedData[voteIndex] = newValue;
+        return updatedData;
+      },
+    });
+  };
+
   return (
     <>
       <Paragraph>{option.name}</Paragraph>
-      <div>
-        <Radio.Group
-          value={votes[voteIndex]?.value}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value);
-            const body: PutVoteRequestBody = {
-              optionName: option.name,
-              value: newValue,
-            };
-            sendData({
-              url: `/api/survey/${surveyName}/${userName}/vote`,
-              method: "PUT",
-              body,
-              setData: setVotes,
-              clientUpdater: (oldData, newValue) => {
-                const updatedData = [...oldData];
-                updatedData[voteIndex] = newValue;
-                return updatedData;
-              },
-            });
-          }}
-        >
-          {oppositions.map(({ value, color }) => (
-            <Radio.Button
-              value={value}
-              key={value}
-              style={{
-                backgroundColor: color + "44",
-              }}
-            >
-              {value}
-            </Radio.Button>
-          ))}
-        </Radio.Group>
-      </div>
+      <Space wrap={true}>
+        {oppositions.map(({ value, color }) => (
+          <Button
+            shape="circle"
+            key={value}
+            style={{
+              backgroundColor: color + "44",
+              borderColor: currentVoteValue === value ? "black" : undefined,
+            }}
+            onClick={() => setData(value)}
+          >
+            {value}
+          </Button>
+        ))}
+      </Space>
     </>
   );
 }

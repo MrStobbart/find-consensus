@@ -23,6 +23,7 @@ import Space from "antd/es/space";
 import Title from "antd/es/typography/Title";
 import { TextInput } from "../../../../components/TextInput";
 import Paragraph from "antd/es/typography/Paragraph";
+import { useRouter } from "next/navigation";
 
 export default function SurveyVoting({
   params: { surveyName, userName },
@@ -31,6 +32,7 @@ export default function SurveyVoting({
 }) {
   const [options, setOptions] = useState<Options>([]);
   const [votes, setVotes] = useState<Votes>([]);
+  const router = useRouter();
 
   const [isLoading] = useFetch<Options>({
     url: `/api/survey/${surveyName}/options`,
@@ -74,7 +76,12 @@ export default function SurveyVoting({
         ))
       )}
       <Divider />
-      <Button type="primary">Save votes</Button>
+      <Button
+        type="primary"
+        onClick={() => router.push(`/survey/${surveyName}`)}
+      >
+        Back to survey
+      </Button>
     </>
   );
 }
