@@ -31,7 +31,7 @@ export function useFetch<T>({
 export function sendData<Req, ResponseData>({
   url,
   setData,
-  clientUpdater, // TODO add for other sendData points
+  clientUpdater,
   method,
   body,
 }: {

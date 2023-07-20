@@ -15,6 +15,7 @@ import Divider from "antd/es/divider";
 import Typography from "antd/es/typography";
 import { TextInput } from "./components/TextInput";
 import { ItemDisplay } from "./components/ItemDisplay";
+import Link from "antd/es/typography/Link";
 const { Title, Paragraph } = Typography;
 
 export default function StartPage() {
@@ -29,6 +30,21 @@ export default function StartPage() {
   // TODO validate uniqueness of survey names
   return (
     <>
+      <Title level={4}>Find consensus app</Title>
+      <Paragraph>
+        Use this app to find consensus in a group while finding the solution
+        with the lowest accumulated resistance. Read more about the process
+        here:{" "}
+        <Link target="_blank" href="https://sk-prinzip.eu/methode/">
+          https://sk-prinzip.eu/methode/
+        </Link>
+      </Paragraph>
+      <Paragraph>
+        The whole app has no authentication. The reason for this is, to remove
+        as many barries as possible. Be mindful which information you put in the
+        app.
+      </Paragraph>
+      <Divider />
       <TextInput
         title="Create a new survey"
         inputPlaceholder="Title of your survey"
@@ -51,7 +67,7 @@ export default function StartPage() {
         <Paragraph>Loading existing surveys...</Paragraph>
       ) : (
         <>
-          <Title level={4}>Current surveys</Title>
+          <Title level={5}>Current surveys</Title>
           <Space direction="vertical">
             {surveys.map((survey, index) => (
               <ItemDisplay

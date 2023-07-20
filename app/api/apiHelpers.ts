@@ -20,7 +20,6 @@ export const getVotes = async (
   );
   const votes = await kv.mget<number[]>(...votesKeys);
 
-  // TODO do I need reverse here?
   return options.map(({ name }, index) => ({
     optionName: name,
     value: votes[index],

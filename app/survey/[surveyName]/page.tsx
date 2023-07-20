@@ -33,6 +33,9 @@ export default function SurveyComponent({
   return (
     <>
       <Title level={4}>Survey: {decodeURI(surveyName)}</Title>
+      <Paragraph>
+        Every participant can create new options and should vote on all of them.
+      </Paragraph>
       <Divider />
       <TextInput
         title="Create new participant"

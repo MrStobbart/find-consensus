@@ -5,7 +5,8 @@ import Input from "antd/es/input";
 import { useState } from "react";
 import Card from "antd/es/card";
 import Modal from "antd/es/modal";
-import { Col, Row } from "antd";
+import Row from "antd/es/row";
+import Col from "antd/es/col";
 import { DeleteOutlined } from "@ant-design/icons";
 
 export type ItemDisplayProps = {

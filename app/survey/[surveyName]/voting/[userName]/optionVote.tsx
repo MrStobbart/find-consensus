@@ -8,7 +8,7 @@ import { Dispatch, SetStateAction } from "react";
 import { sendData } from "../../../../clientHelpers";
 import { PutVoteRequestBody } from "../../../../api/survey/[surveyName]/[userName]/vote/route";
 import Paragraph from "antd/es/typography/Paragraph";
-import { Space } from "antd";
+import Space from "antd/es/space";
 
 type Opposition = {
   value: VoteValue;

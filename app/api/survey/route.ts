@@ -8,18 +8,17 @@ import { getSurveys } from "../apiHelpers";
 export type PostSurveyRequestBody = Survey;
 
 export async function POST(request: Request) {
-  const { name }: PostSurveyRequestBody = await request.json();
+  const survey: PostSurveyRequestBody = await request.json();
 
-  if (!name) {
+  if (!survey.name) {
     return NextResponse.json(
       createResponse("You must provide a survey name in the body")
     );
   }
 
   // TODO validation
-  const survey: Survey = { name };
   const length = await kv.rpush(surveysKey, survey);
-  await kv.set(getSurveyIndexKey(name), length - 1);
+  await kv.set(getSurveyIndexKey(survey.name), length - 1);
   const surveys = await getSurveys();
   return NextResponse.json(createResponse<Survey[]>("Survey created", surveys));
 }

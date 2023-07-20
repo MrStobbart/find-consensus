@@ -46,6 +46,22 @@ export default function SurveyVoting({
 
   return (
     <>
+      <Title level={4}>Voting for participant {userName}</Title>
+      <Paragraph>
+        Here you can see all currently created options declare you restiance
+        against the different possibilites.
+      </Paragraph>
+      <Paragraph>
+        After every participant has voted the option with the lowest total
+        (accumulated from all participants) resistance is probably the best
+        option for the group.
+      </Paragraph>
+      <Paragraph>
+        Declaring the same resistance for all options has the same effect as
+        abstaining from the voting overall. It is therefore recommended to think
+        about differences.
+      </Paragraph>
+      <Divider />
       <TextInput
         title="Create a new option"
         inputPlaceholder="Name of the option"
