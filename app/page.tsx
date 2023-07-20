@@ -44,6 +44,16 @@ export default function StartPage() {
         as many barries as possible. Be mindful which information you put in the
         app.
       </Paragraph>
+      <Paragraph>
+        This app was created in a hackathon with some cleanup and probably still
+        has lots of bugs. Please report on{" "}
+        <Link
+          href="https://github.com/MrStobbart/find-consensus/issues"
+          target="_blank"
+        >
+          GitHub
+        </Link>
+      </Paragraph>
       <Divider />
       <TextInput
         title="Create a new survey"
