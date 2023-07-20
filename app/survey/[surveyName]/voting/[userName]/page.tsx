@@ -50,12 +50,16 @@ export default function SurveyVoting({
         title="Create a new option"
         inputPlaceholder="Name of the option"
         onClick={(newValue) => {
-          const body: PostOptionRequestBody = { optionName: newValue };
+          const body: PostOptionRequestBody = { name: newValue };
           sendData({
             url: `/api/survey/${surveyName}/option`,
             method: "POST",
             body,
             setData: setOptions,
+            clientUpdater(options, newOption) {
+              const updatedOptions = [newOption, ...(options || [])];
+              return updatedOptions;
+            },
           });
         }}
       />

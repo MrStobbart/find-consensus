@@ -23,3 +23,14 @@ export async function POST(request: Request) {
   const surveys = await getSurveys();
   return NextResponse.json(createResponse<Survey[]>("Survey created", surveys));
 }
+
+export type DeleteSurveyRequestBody = Pick<Survey, "name">;
+
+export async function DELETE(request: Request) {
+  const survey: DeleteSurveyRequestBody = await request.json();
+  await kv.lrem(surveysKey, 1, survey);
+  const surveys = await getSurveys();
+  return NextResponse.json(
+    createResponse<Survey[]>(`Survey ${survey.name} deleted`, surveys)
+  );
+}

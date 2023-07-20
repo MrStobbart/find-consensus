@@ -14,6 +14,7 @@ import Space from "antd/es/space";
 import Divider from "antd/es/divider";
 import Typography from "antd/es/typography";
 import { TextInput } from "./components/TextInput";
+import { ItemDisplay } from "./components/ItemDisplay";
 const { Title, Paragraph } = Typography;
 
 export default function StartPage() {
@@ -25,6 +26,7 @@ export default function StartPage() {
     setData: setSurveys,
   });
 
+  // TODO validate uniqueness of survey names
   return (
     <>
       <TextInput
@@ -37,6 +39,10 @@ export default function StartPage() {
             method: "POST",
             body,
             setData: setSurveys,
+            clientUpdater(surveys, newSurvey) {
+              const updatedSurveys = [newSurvey, ...(surveys || [])];
+              return updatedSurveys;
+            },
           });
         }}
       />
@@ -48,15 +54,26 @@ export default function StartPage() {
           <Title level={4}>Current surveys</Title>
           <Space direction="vertical">
             {surveys.map((survey, index) => (
-              <Button
-                block={true}
+              <ItemDisplay
                 key={survey.name + index}
-                onClick={() => {
+                name={survey.name}
+                onOpen={() => {
                   router.push(`/survey/${encodeURI(survey.name)}`);
                 }}
-              >
-                {survey.name}
-              </Button>
+                onDelete={() =>
+                  sendData({
+                    url: "/api/survey",
+                    method: "DELETE",
+                    body: survey,
+                    setData: setSurveys,
+                    clientUpdater(surveys, surveyToDelete) {
+                      return surveys?.filter(
+                        (survey) => survey.name !== surveyToDelete.name
+                      );
+                    },
+                  })
+                }
+              />
             ))}
           </Space>
         </>

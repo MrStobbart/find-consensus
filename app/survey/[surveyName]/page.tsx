@@ -13,6 +13,7 @@ import Row from "antd/es/row";
 import Col from "antd/es/col";
 import Divider from "antd/es/divider";
 import { TextInput } from "../../components/TextInput";
+import { ItemDisplay } from "../../components/ItemDisplay";
 const { Title, Paragraph } = Typography;
 
 export default function SurveyComponent({
@@ -28,6 +29,7 @@ export default function SurveyComponent({
     setData: setSurveyUsers,
   });
 
+  // TODO validate uniqueness of rusernames
   return (
     <>
       <Title level={4}>Survey: {decodeURI(surveyName)}</Title>
@@ -36,14 +38,15 @@ export default function SurveyComponent({
         title="Create new participant"
         inputPlaceholder="Name of participant"
         onClick={(newValue) => {
-          const body: PostUserRequestBody = {
-            userName: newValue,
-          };
           sendData({
             url: `/api/survey/${surveyName}/user`,
             method: "POST",
-            body,
+            body: { name: newValue },
             setData: setSurveyUsers,
+            clientUpdater(users, newUser) {
+              const updatedUsers = [newUser, ...(users || [])];
+              return updatedUsers;
+            },
           });
         }}
       />
@@ -56,16 +59,27 @@ export default function SurveyComponent({
       )}
       {surveyUsers && (
         <Space direction="vertical">
-          {surveyUsers.map(({ name }) => (
-            <Button
-              key={name}
-              block={true}
-              onClick={() => {
-                router.push(`/survey/${surveyName}/voting/${name}`);
+          {surveyUsers.map((user) => (
+            <ItemDisplay
+              key={user.name}
+              name={user.name}
+              onOpen={() => {
+                router.push(`/survey/${surveyName}/voting/${user.name}`);
               }}
-            >
-              {name}
-            </Button>
+              onDelete={() =>
+                sendData({
+                  url: `/api/survey/${surveyName}/user`,
+                  method: "DELETE",
+                  body: user,
+                  setData: setSurveyUsers,
+                  clientUpdater(users, userToDelete) {
+                    return users?.filter(
+                      (user) => user.name !== userToDelete.name
+                    );
+                  },
+                })
+              }
+            />
           ))}
         </Space>
       )}

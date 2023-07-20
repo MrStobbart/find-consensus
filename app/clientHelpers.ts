@@ -38,7 +38,7 @@ export function sendData<Req, ResponseData>({
   url: string;
   setData: Dispatch<SetStateAction<ResponseData>>;
   clientUpdater?: (oldData: ResponseData, newValue: Req) => ResponseData;
-  method: "PUT" | "POST";
+  method: "PUT" | "POST" | "DELETE";
   body: Req;
 }) {
   if (clientUpdater) {

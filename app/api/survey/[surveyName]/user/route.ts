@@ -9,25 +9,42 @@ import {
 } from "../../../../types";
 import { getUsers } from "../../../apiHelpers";
 
-export type PostUserRequestBody = { userName: string };
+export type PostUserRequestBody = SurveyUser;
 
 export async function POST(
   request: Request,
   context: { params: Record<string, string> }
 ) {
   const surveyName = context.params["surveyName"];
-  const { userName }: PostUserRequestBody = await request.json();
+  const surveyUser: PostUserRequestBody = await request.json();
 
   if (!surveyName) {
     return NextResponse.json(createResponse("You must provide a survey name"));
   }
 
-  if (!userName) {
+  if (!surveyUser.name) {
     return NextResponse.json(createResponse("You must provide a user name"));
   }
 
-  const user: SurveyUser = { name: userName };
-  await kv.rpush(getSurveyUsersKey(surveyName), user);
+  await kv.rpush(getSurveyUsersKey(surveyName), surveyUser);
+  const users = await getUsers(surveyName);
+  return NextResponse.json(createResponse<Option[]>("User created", users));
+}
+
+export type DeleteUserRequestBody = SurveyUser;
+
+export async function DELETE(
+  request: Request,
+  context: { params: Record<string, string> }
+) {
+  const surveyName = context.params["surveyName"];
+  const userToDelete: PostUserRequestBody = await request.json();
+
+  if (!surveyName) {
+    return NextResponse.json(createResponse("You must provide a survey name"));
+  }
+
+  await kv.lrem(getSurveyUsersKey(surveyName), 1, userToDelete);
   const users = await getUsers(surveyName);
   return NextResponse.json(createResponse<Option[]>("User created", users));
 }
