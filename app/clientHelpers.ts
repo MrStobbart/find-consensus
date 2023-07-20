@@ -31,14 +31,19 @@ export function useFetch<T>({
 export function sendData<Req, ResponseData>({
   url,
   setData,
+  clientUpdater, // TODO add for other sendData points
   method,
   body,
 }: {
   url: string;
   setData: Dispatch<SetStateAction<ResponseData>>;
+  clientUpdater?: (oldData: ResponseData, newValue: Req) => ResponseData;
   method: "PUT" | "POST";
   body: Req;
 }) {
+  if (clientUpdater) {
+    setData((oldData) => clientUpdater(oldData, body));
+  }
   fetch(url, {
     method,
     body: JSON.stringify(body),

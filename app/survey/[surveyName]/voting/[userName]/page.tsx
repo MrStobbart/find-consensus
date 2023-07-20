@@ -42,8 +42,6 @@ export default function SurveyVoting({
     setData: setVotes,
   });
 
-  console.log({ votes, options });
-
   return (
     <>
       <TextInput
@@ -75,6 +73,8 @@ export default function SurveyVoting({
           </div>
         ))
       )}
+      <Divider />
+      <Button type="primary">Save votes</Button>
     </>
   );
 }

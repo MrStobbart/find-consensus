@@ -22,27 +22,9 @@ export async function PUT(
     return NextResponse.json(createResponse("You must provide a user name"));
   }
 
-  const votes = await getVotes(surveyName, userName);
-
-  console.log({ votes });
-
-  const voteIndex = votes.findIndex((vote) => vote.optionName === optionName);
-
-  const voteValue = value as VoteValue; // TODO
-  const newVote: Vote = { optionName, value: voteValue };
-
-  console.log({
-    surveyName,
-    userName,
-    newVote,
-    voteIndex,
-  });
-
   await kv.set(getVotesKey(surveyName, userName, optionName), value);
 
   const updatedVotes = await getVotes(surveyName, userName);
-
-  console.log("updated", { updatedVotes });
   return NextResponse.json(
     createResponse<Votes>("Vote upserted", updatedVotes)
   );

@@ -44,14 +44,16 @@ export default function OptionVote({
   votes,
   setVotes,
 }: OptionVoteProps) {
-  const vote = votes.find((vote) => vote.optionName === option.name);
+  console.log(votes);
+
+  const voteIndex = votes.findIndex((vote) => vote.optionName === option.name);
   // TODO make the radio style better on mobile
   return (
     <>
       <Paragraph>{option.name}</Paragraph>
       <div>
         <Radio.Group
-          value={vote?.value}
+          value={votes[voteIndex]?.value}
           onChange={(e) => {
             const newValue = parseInt(e.target.value);
             const body: PutVoteRequestBody = {
@@ -63,6 +65,11 @@ export default function OptionVote({
               method: "PUT",
               body,
               setData: setVotes,
+              clientUpdater: (oldData, newValue) => {
+                const updatedData = [...oldData];
+                updatedData[voteIndex] = newValue;
+                return updatedData;
+              },
             });
           }}
         >
