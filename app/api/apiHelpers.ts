@@ -10,9 +10,21 @@ import {
   surveysKey,
 } from "../types";
 
-export const getVotes = async (surveyName: string, userName: string) => {
-  const votes = await kv.lrange<Vote>(getVotesKey(surveyName, userName), 0, -1);
-  return votes.reverse();
+export const getVotes = async (
+  surveyName: string,
+  userName: string
+): Promise<Vote[]> => {
+  const options = await getOptions(surveyName);
+  const votesKeys = options.map(({ name }) =>
+    getVotesKey(surveyName, userName, name)
+  );
+  const votes = await kv.mget<number[]>(...votesKeys);
+
+  // TODO do I need reverse here?
+  return options.map(({ name }, index) => ({
+    optionName: name,
+    value: votes[index],
+  }));
 };
 
 export const getVotesForOption = async (

@@ -42,6 +42,8 @@ export default function SurveyVoting({
     setData: setVotes,
   });
 
+  console.log({ votes, options });
+
   return (
     <>
       <TextInput

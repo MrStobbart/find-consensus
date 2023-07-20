@@ -31,76 +31,76 @@ const StyledComponentsRegistry = ({
   children: React.ReactNode;
 }) => {
   const router = useRouter();
-  const cache = createCache();
-  useServerInsertedHTML(() => (
-    <style
-      id="antd"
-      dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }}
-    />
-  ));
+  // const cache = createCache();
+  // useServerInsertedHTML(() => (
+  //   <style
+  //     id="antd"
+  //     dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }}
+  //   />
+  // ));
   return (
-    <StyleProvider cache={cache}>
-      <ConfigProvider theme={theme}>
-        <Row
-          style={{
-            width: "100%",
-            backgroundColor: "lightsalmon",
-            minHeight: "100%",
-          }}
-          justify="center"
-        >
-          <Col>
-            <Row
+    // <StyleProvider cache={cache}>
+    <ConfigProvider theme={theme}>
+      <Row
+        style={{
+          width: "100%",
+          backgroundColor: "lightsalmon",
+          minHeight: "100%",
+        }}
+        justify="center"
+      >
+        <Col>
+          <Row
+            style={{
+              width: "100vw",
+              maxWidth: "576px",
+              backgroundColor: "lightcyan",
+            }}
+            justify="center"
+          >
+            <Col
               style={{
-                width: "100vw",
-                maxWidth: "576px",
-                backgroundColor: "lightcyan",
+                width: "100%",
+                textAlign: "center",
+                minHeight: "100vh",
+                padding: "16px",
               }}
-              justify="center"
             >
-              <Col
-                style={{
-                  width: "100%",
-                  textAlign: "center",
-                  minHeight: "100vh",
-                  padding: "16px",
-                }}
-              >
-                <Space>
-                  <Button
-                    icon={<LeftOutlined />}
-                    type="primary"
-                    size="large"
-                    onClick={() => {
-                      router.back();
-                    }}
-                  />
-                  <Button
-                    type="primary"
-                    size="large"
-                    onClick={() => {
-                      router.push(`/`);
-                    }}
-                  >
-                    View all surveys
-                  </Button>
-                  <Button
-                    icon={<RightOutlined />}
-                    type="primary"
-                    size="large"
-                    onClick={() => {
-                      router.forward();
-                    }}
-                  />
-                </Space>
-                <Divider />
-                {children}
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </ConfigProvider>
-    </StyleProvider>
+              <Space>
+                <Button
+                  icon={<LeftOutlined />}
+                  type="primary"
+                  size="large"
+                  onClick={() => {
+                    router.back();
+                  }}
+                />
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={() => {
+                    router.push(`/`);
+                  }}
+                >
+                  View all surveys
+                </Button>
+                <Button
+                  icon={<RightOutlined />}
+                  type="primary"
+                  size="large"
+                  onClick={() => {
+                    router.forward();
+                  }}
+                />
+              </Space>
+              <Divider />
+              {children}
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </ConfigProvider>
+    // </StyleProvider>
   );
 };
 

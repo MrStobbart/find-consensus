@@ -21,12 +21,18 @@ export type VoteIds = string;
 export type Votes = Vote[];
 export type Vote = {
   optionName: string;
-  value: VoteValue;
+  value: VoteValue | null;
 };
 // export type VoteValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export type VoteValue = number;
-export const getVotesKey = (surveyName: string, userName: string) =>
-  `${getSurveyKey(surveyName)}${delimiter}${userName}${delimiter}votes `;
+export const getVotesKey = (
+  surveyName: string,
+  userName: string,
+  optionName: string
+) =>
+  `${getSurveyKey(
+    surveyName
+  )}${delimiter}${userName}${delimiter}votes${delimiter}${optionName} `;
 
 // [SurveyId][delimiter]users
 export type SurveyUsersId = string;

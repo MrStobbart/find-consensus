@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useFetch } from "../../../clientHelpers";
-import { Options, Votes } from "../../../types";
+import { Options, VoteValue, Votes } from "../../../types";
 import Title from "antd/es/typography/Title";
 import Row from "antd/es/row";
 import Col from "antd/es/col";
@@ -33,8 +33,10 @@ export default function Results({
   const optionsWithResults = options
     .map((option) => {
       const votesForOption = votes
-        .filter((vote) => vote.optionName === option.name)
-        .map((vote) => vote.value);
+        .filter(
+          (vote) => vote.optionName === option.name && vote.value !== null
+        )
+        .map((vote) => vote.value) as VoteValue[]; // TODO maybe type ok?
 
       const hasVotes = votesForOption.length > 0;
 

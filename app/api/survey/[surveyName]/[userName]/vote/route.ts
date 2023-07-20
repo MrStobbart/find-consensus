@@ -24,6 +24,8 @@ export async function PUT(
 
   const votes = await getVotes(surveyName, userName);
 
+  console.log({ votes });
+
   const voteIndex = votes.findIndex((vote) => vote.optionName === optionName);
 
   const voteValue = value as VoteValue; // TODO
@@ -36,13 +38,11 @@ export async function PUT(
     voteIndex,
   });
 
-  if (voteIndex !== -1) {
-    await kv.lset(getVotesKey(surveyName, userName), voteIndex, newVote);
-  } else {
-    await kv.rpush(getVotesKey(surveyName, userName), newVote);
-  }
+  await kv.set(getVotesKey(surveyName, userName, optionName), value);
+
   const updatedVotes = await getVotes(surveyName, userName);
 
+  console.log("updated", { updatedVotes });
   return NextResponse.json(
     createResponse<Votes>("Vote upserted", updatedVotes)
   );
