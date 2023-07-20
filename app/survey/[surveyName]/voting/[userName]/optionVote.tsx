@@ -7,6 +7,7 @@ import Row from "antd/es/row";
 import { Dispatch, SetStateAction } from "react";
 import { sendData } from "../../../../clientHelpers";
 import { PutVoteRequestBody } from "../../../../api/survey/[surveyName]/[userName]/vote/route";
+import Paragraph from "antd/es/typography/Paragraph";
 
 type Opposition = {
   value: VoteValue;
@@ -44,36 +45,40 @@ export default function OptionVote({
   setVotes,
 }: OptionVoteProps) {
   const vote = votes.find((vote) => vote.optionName === option.name);
+  // TODO make the radio style better on mobile
   return (
-    <Row style={{ alignItems: "center" }}>
-      <Col span={6}>{option.name}</Col>
-      <Col span={18}>
-        <div>
-          <Radio.Group
-            size="small"
-            value={vote?.value}
-            onChange={(e) => {
-              const newValue = parseInt(e.target.value);
-              const body: PutVoteRequestBody = {
-                optionName: option.name,
-                value: newValue,
-              };
-              sendData({
-                url: `/api/survey/${surveyName}/${userName}/vote`,
-                method: "PUT",
-                body,
-                setData: setVotes,
-              });
-            }}
-          >
-            {oppositions.map(({ value, color }) => (
-              <Radio.Button value={value} key={value} style={{ color: color }}>
-                {value}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
-        </div>
-      </Col>
-    </Row>
+    <>
+      <Paragraph>{option.name}</Paragraph>
+      <div>
+        <Radio.Group
+          value={vote?.value}
+          onChange={(e) => {
+            const newValue = parseInt(e.target.value);
+            const body: PutVoteRequestBody = {
+              optionName: option.name,
+              value: newValue,
+            };
+            sendData({
+              url: `/api/survey/${surveyName}/${userName}/vote`,
+              method: "PUT",
+              body,
+              setData: setVotes,
+            });
+          }}
+        >
+          {oppositions.map(({ value, color }) => (
+            <Radio.Button
+              value={value}
+              key={value}
+              style={{
+                backgroundColor: color + "44",
+              }}
+            >
+              {value}
+            </Radio.Button>
+          ))}
+        </Radio.Group>
+      </div>
+    </>
   );
 }
