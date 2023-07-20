@@ -1,15 +1,10 @@
 "use client";
 
-import { CSSProperties, useState } from "react";
+import { useState } from "react";
 import { sendData, useFetch } from "./clientHelpers";
 import { Survey } from "./types";
-import Button from "antd/es/button";
-import Card from "antd/es/card";
-import Input from "antd/es/input";
 import { useRouter } from "next/navigation";
 import { PostSurveyRequestBody } from "./api/survey/route";
-import Row from "antd/es/row";
-import Col from "antd/es/col";
 import Space from "antd/es/space";
 import Divider from "antd/es/divider";
 import Typography from "antd/es/typography";
@@ -17,6 +12,8 @@ import { TextInput } from "./components/TextInput";
 import { ItemDisplay } from "./components/ItemDisplay";
 import Link from "antd/es/typography/Link";
 const { Title, Paragraph } = Typography;
+
+export const revalidate = 0;
 
 export default function StartPage() {
   const router = useRouter();

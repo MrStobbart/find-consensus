@@ -2,19 +2,17 @@
 
 import Button from "antd/es/button";
 import { sendData, useFetch } from "../../clientHelpers";
-import { Options, SurveyUsers } from "../../types";
+import { SurveyUsers } from "../../types";
 import { useRouter } from "next/navigation";
-import Input from "antd/es/input";
-import { useEffect, useState } from "react";
-import { PostUserRequestBody } from "../../api/survey/[surveyName]/user/route";
+import { useState } from "react";
 import Typography from "antd/es/typography";
 import Space from "antd/es/space";
-import Row from "antd/es/row";
-import Col from "antd/es/col";
 import Divider from "antd/es/divider";
 import { TextInput } from "../../components/TextInput";
 import { ItemDisplay } from "../../components/ItemDisplay";
 const { Title, Paragraph } = Typography;
+
+export const revalidate = 0;
 
 export default function SurveyComponent({
   params: { surveyName },

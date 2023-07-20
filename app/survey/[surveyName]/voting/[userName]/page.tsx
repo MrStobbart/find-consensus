@@ -2,28 +2,18 @@
 
 // https://github.com/ant-design/ant-design/discussions/43348#discussioncomment-6349922
 import Button from "antd/es/button";
-import Input from "antd/es/input";
-import Col from "antd/es/col";
-import Radio from "antd/es/radio";
-import Row from "antd/es/row";
-import { useEffect, useState } from "react";
-import {
-  Option,
-  Options,
-  Survey,
-  Vote,
-  VoteValue,
-  Votes,
-} from "../../../../types";
+import { useState } from "react";
+import { Options, Votes } from "../../../../types";
 import { sendData, useFetch } from "../../../../clientHelpers";
 import { PostOptionRequestBody } from "../../../../api/survey/[surveyName]/option/route";
 import OptionVote from "./optionVote";
 import Divider from "antd/es/divider";
-import Space from "antd/es/space";
 import Title from "antd/es/typography/Title";
 import { TextInput } from "../../../../components/TextInput";
 import Paragraph from "antd/es/typography/Paragraph";
 import { useRouter } from "next/navigation";
+
+export const revalidate = 0;
 
 export default function SurveyVoting({
   params: { surveyName, userName },
