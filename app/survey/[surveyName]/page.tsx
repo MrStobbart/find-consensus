@@ -12,8 +12,6 @@ import { TextInput } from "../../components/TextInput";
 import { ItemDisplay } from "../../components/ItemDisplay";
 const { Title, Paragraph } = Typography;
 
-export const revalidate = 0;
-
 export default function SurveyComponent({
   params: { surveyName },
 }: {

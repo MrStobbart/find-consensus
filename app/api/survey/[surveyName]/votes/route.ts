@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createResponse } from "../../../../helpers";
 import { getUsers, getVotes } from "../../../apiHelpers";
 
+export const revalidate = 0;
+
 export async function GET(
   request: Request,
   context: { params: Record<string, string> }

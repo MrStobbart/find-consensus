@@ -11,8 +11,6 @@ import Button from "antd/es/button";
 import { oppositions } from "../voting/[userName]/optionVote";
 import Paragraph from "antd/es/typography/Paragraph";
 
-export const revalidate = 0;
-
 export default function Results({
   params: { surveyName },
 }: {

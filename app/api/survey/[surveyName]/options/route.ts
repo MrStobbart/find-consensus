@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { kv } from "@vercel/kv";
 import { createResponse } from "../../../../helpers";
-import { getSurveyIndexKey, surveysKey } from "../../../../redisKeys";
-import { Option, getOptionsKey } from "../../../../types";
 import { getOptions } from "../../../apiHelpers";
+
+export const revalidate = 0;
 
 export async function GET(
   request: Request,

@@ -13,8 +13,6 @@ import { TextInput } from "../../../../components/TextInput";
 import Paragraph from "antd/es/typography/Paragraph";
 import { useRouter } from "next/navigation";
 
-export const revalidate = 0;
-
 export default function SurveyVoting({
   params: { surveyName, userName },
 }: {

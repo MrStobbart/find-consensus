@@ -13,8 +13,6 @@ import { ItemDisplay } from "./components/ItemDisplay";
 import Link from "antd/es/typography/Link";
 const { Title, Paragraph } = Typography;
 
-export const revalidate = 0;
-
 export default function StartPage() {
   const router = useRouter();
   const [surveys, setSurveys] = useState<Survey[]>([]);
