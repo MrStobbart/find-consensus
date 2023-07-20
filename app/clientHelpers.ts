@@ -15,7 +15,7 @@ export function useFetch<T>({
 
   useEffect(() => {
     setLoading(true);
-    fetch(url, { cache: "no-store" })
+    fetch(url, { cache: "no-store", next: { revalidate: 1 } })
       .then((res) => res.json())
       .then((response: ServerResponse<T>) => {
         if (response.ok) {
