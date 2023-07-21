@@ -38,6 +38,8 @@ export default function SurveyComponent({
       <TextInput
         title="Create new participant"
         inputPlaceholder="Name of participant"
+        maxLength={30}
+        width="50%"
         onClick={(newValue) => {
           sendData({
             url: `/api/survey/${surveyName}/user`,

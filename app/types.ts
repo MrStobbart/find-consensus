@@ -1,4 +1,4 @@
-const delimiter = "_|_";
+export const delimiter = "_|_";
 
 // survey[delimiter][surveyName]
 type SurveyId = string;

@@ -30,7 +30,8 @@ export default function StartPage() {
       <Paragraph>
         Use this app to find consensus in a group while finding the solution
         with the lowest accumulated resistance. Read more about the process
-        here:{" "}
+        here:
+        <br />
         <Link target="_blank" href="https://sk-prinzip.eu/methode/">
           https://sk-prinzip.eu/methode/
         </Link>
@@ -54,6 +55,7 @@ export default function StartPage() {
       <TextInput
         title="Create a new survey"
         inputPlaceholder="Title of your survey"
+        maxLength={50}
         onClick={(newValue) => {
           const body: PostSurveyRequestBody = { name: newValue };
           sendData({
@@ -74,7 +76,7 @@ export default function StartPage() {
       ) : (
         <>
           <Title level={5}>Current surveys</Title>
-          <Space direction="vertical">
+          <Space direction="vertical" wrap={true}>
             {surveys.map((survey, index) => (
               <ItemDisplay
                 key={survey.name + index}

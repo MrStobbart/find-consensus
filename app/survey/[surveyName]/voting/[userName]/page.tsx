@@ -54,6 +54,7 @@ export default function SurveyVoting({
       <TextInput
         title="Create a new option"
         inputPlaceholder="Name of the option"
+        maxLength={50}
         onClick={(newValue) => {
           const body: PostOptionRequestBody = { name: newValue };
           sendData({
