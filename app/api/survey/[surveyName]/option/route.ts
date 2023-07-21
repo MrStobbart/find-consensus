@@ -26,3 +26,18 @@ export async function POST(
   const options = await getOptions(surveyName);
   return NextResponse.json(createResponse<Option[]>("Survey created", options));
 }
+
+export type DeleteOptionRequestBody = Option;
+
+export async function DELETE(
+  request: Request,
+  context: { params: Record<string, string> }
+) {
+  const surveyName = context.params["surveyName"];
+  const optiontoDelete: DeleteOptionRequestBody = await request.json();
+  await kv.lrem(getOptionsKey(surveyName), 1, optiontoDelete);
+  const options = await getOptions(surveyName);
+  return NextResponse.json(
+    createResponse<Option[]>(`Option ${optiontoDelete.name} deleted`, options)
+  );
+}

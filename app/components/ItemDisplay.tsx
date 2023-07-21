@@ -38,9 +38,9 @@ export function ItemDisplay({ name, onOpen, onDelete }: ItemDisplayProps) {
           <Button
             icon={<DeleteOutlined />}
             type="text"
-            shape="round"
+            shape="circle"
             onClick={() => setIsModalOpen(true)}
-          ></Button>
+          />
         </Col>
       </Row>
       <Modal
@@ -48,7 +48,7 @@ export function ItemDisplay({ name, onOpen, onDelete }: ItemDisplayProps) {
         open={isModalOpen}
         onOk={onDelete}
         onCancel={() => setIsModalOpen(false)}
-      ></Modal>
+      />
     </>
   );
 }

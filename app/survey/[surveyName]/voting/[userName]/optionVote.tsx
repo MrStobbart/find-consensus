@@ -1,14 +1,12 @@
-import { Option, Vote, VoteValue, Votes } from "../../../../types";
+import { Option, Options, VoteValue, Votes } from "../../../../types";
 import Button from "antd/es/button";
-import Input from "antd/es/input";
-import Col from "antd/es/col";
-import Radio from "antd/es/radio";
-import Row from "antd/es/row";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { sendData } from "../../../../clientHelpers";
 import { PutVoteRequestBody } from "../../../../api/survey/[surveyName]/[userName]/vote/route";
 import Paragraph from "antd/es/typography/Paragraph";
 import Space from "antd/es/space";
+import { DeleteOutlined } from "@ant-design/icons";
+import Modal from "antd/es/modal";
 
 type Opposition = {
   value: VoteValue;
@@ -35,6 +33,7 @@ type OptionVoteProps = {
   surveyName: string;
   userName: string;
   setVotes: Dispatch<SetStateAction<Votes>>;
+  setOptions: Dispatch<SetStateAction<Options>>;
   votes: Votes;
 };
 
@@ -44,8 +43,9 @@ export default function OptionVote({
   userName,
   votes,
   setVotes,
+  setOptions,
 }: OptionVoteProps) {
-  console.log(votes);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const voteIndex = votes.findIndex((vote) => vote.optionName === option.name);
   const currentVoteValue = votes[voteIndex]?.value;
@@ -68,6 +68,20 @@ export default function OptionVote({
     });
   };
 
+  // TODO edit option names with nanoid?
+
+  const deleteOption = () => {
+    sendData({
+      url: `/api/survey/${surveyName}/option`,
+      method: "DELETE",
+      body: option,
+      setData: setOptions,
+      clientUpdater(options, optionToDelete) {
+        return options?.filter((option) => option.name !== optionToDelete.name);
+      },
+    });
+  };
+
   return (
     <>
       <Paragraph>{option.name}</Paragraph>
@@ -85,7 +99,19 @@ export default function OptionVote({
             {value}
           </Button>
         ))}
+        <Button
+          icon={<DeleteOutlined />}
+          type="text"
+          shape="circle"
+          onClick={() => setIsModalOpen(true)}
+        />
       </Space>
+      <Modal
+        title={`Do you want to delete option "${option.name}"?`}
+        open={isModalOpen}
+        onOk={deleteOption}
+        onCancel={() => setIsModalOpen(false)}
+      />
     </>
   );
 }

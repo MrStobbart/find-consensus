@@ -81,6 +81,7 @@ export default function SurveyVoting({
               option={option}
               votes={votes}
               setVotes={setVotes}
+              setOptions={setOptions}
             />
           </div>
         ))
