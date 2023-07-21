@@ -2,7 +2,7 @@
 
 import Button from "antd/es/button";
 import { sendData, useFetch } from "../../clientHelpers";
-import { SurveyUsers } from "../../types";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Typography from "antd/es/typography";
@@ -10,6 +10,8 @@ import Space from "antd/es/space";
 import Divider from "antd/es/divider";
 import { TextInput } from "../../components/TextInput";
 import { ItemDisplay } from "../../components/ItemDisplay";
+import { LoadingOutlined } from "@ant-design/icons";
+import { SurveyUser } from "../../types";
 const { Title, Paragraph } = Typography;
 
 export default function SurveyComponent({
@@ -17,10 +19,10 @@ export default function SurveyComponent({
 }: {
   params: { surveyName: string };
 }) {
-  const [surveyUsers, setSurveyUsers] = useState<SurveyUsers>();
+  const [surveyUsers, setSurveyUsers] = useState<SurveyUser[]>();
   const router = useRouter();
 
-  const [isLoading, message] = useFetch<SurveyUsers | undefined>({
+  const [isLoading, message] = useFetch<SurveyUser[] | undefined>({
     url: `/api/survey/${surveyName}/users`,
     setData: setSurveyUsers,
   });
@@ -52,7 +54,7 @@ export default function SurveyComponent({
       <Divider />
       <Title level={5}>Participants</Title>
       {isLoading ? (
-        <Paragraph>Loading participants...</Paragraph>
+        <LoadingOutlined />
       ) : (
         !surveyUsers && <Paragraph>Something went wrong: {message}</Paragraph>
       )}

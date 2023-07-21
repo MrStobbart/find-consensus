@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { kv } from "@vercel/kv";
 import { createResponse } from "../../../../../helpers";
 import { Vote, VoteValue, Votes, getVotesKey } from "../../../../../types";
-import { getVotes } from "../../../../apiHelpers";
+import { getVotesForUser } from "../../../../apiHelpers";
 
 export type PutVoteRequestBody = { value: number; optionName: string };
 
@@ -24,7 +24,7 @@ export async function PUT(
 
   await kv.set(getVotesKey(surveyName, userName, optionName), value);
 
-  const updatedVotes = await getVotes(surveyName, userName);
+  const updatedVotes = await getVotesForUser(surveyName, userName);
   return NextResponse.json(
     createResponse<Votes>("Vote upserted", updatedVotes)
   );

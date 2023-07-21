@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createResponse } from "../../../../../helpers";
-import { getVotes } from "../../../../apiHelpers";
+import { getVotesForUser } from "../../../../apiHelpers";
 
 export const revalidate = 0;
 
@@ -12,9 +12,9 @@ export async function GET(
   const userName = context.params["userName"];
 
   try {
-    const votes = await getVotes(surveyName, userName);
+    const votes = await getVotesForUser(surveyName, userName);
 
-    return NextResponse.json(createResponse("Here is your survey", votes));
+    return NextResponse.json(createResponse("Here are your votes", votes));
   } catch (error) {
     console.error(error);
   }

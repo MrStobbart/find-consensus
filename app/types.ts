@@ -20,6 +20,7 @@ export const getOptionsKey = (surveyName: string) =>
 export type VoteIds = string;
 export type Votes = Vote[];
 export type Vote = {
+  userName: string;
   optionName: string;
   value: VoteValue | null;
 };
@@ -36,7 +37,6 @@ export const getVotesKey = (
 
 // [SurveyId][delimiter]users
 export type SurveyUsersId = string;
-export type SurveyUsers = SurveyUser[];
 export type SurveyUser = { name: string };
 export const getSurveyUsersKey = (surveyName: string) =>
   `${getSurveyKey(surveyName)}${delimiter}users`;
@@ -51,3 +51,9 @@ export type ServerResponse<T = undefined> =
       ok: false;
       message: string;
     };
+
+export type Results = {
+  votes: Vote[];
+  users: SurveyUser[];
+  options: Option[];
+};

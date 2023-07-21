@@ -4,7 +4,7 @@ import { StyleProvider, createCache, extractStyle } from "@ant-design/cssinjs";
 import ConfigProvider from "antd/es/config-provider";
 import { useRouter, useServerInsertedHTML } from "next/navigation";
 import React from "react";
-import theme from "./themeConfig";
+import theme, { primaryColor, secondaryColor } from "./themeConfig";
 import Layout from "antd/es/layout";
 import Space from "antd/es/space";
 import { Content, Footer, Header } from "antd/es/layout/layout";
@@ -44,7 +44,7 @@ const StyledComponentsRegistry = ({
       <Row
         style={{
           width: "100%",
-          backgroundColor: "lightsalmon",
+          backgroundColor: primaryColor,
           minHeight: "100%",
         }}
         justify="center"
@@ -54,7 +54,7 @@ const StyledComponentsRegistry = ({
             style={{
               width: "100vw",
               maxWidth: "576px",
-              backgroundColor: "lightcyan",
+              backgroundColor: secondaryColor,
             }}
             justify="center"
           >

@@ -11,6 +11,7 @@ import Typography from "antd/es/typography";
 import { TextInput } from "./components/TextInput";
 import { ItemDisplay } from "./components/ItemDisplay";
 import Link from "antd/es/typography/Link";
+import { LoadingOutlined } from "@ant-design/icons";
 const { Title, Paragraph } = Typography;
 
 export default function StartPage() {
@@ -69,7 +70,7 @@ export default function StartPage() {
       />
       <Divider />
       {isLoading ? (
-        <Paragraph>Loading existing surveys...</Paragraph>
+        <LoadingOutlined />
       ) : (
         <>
           <Title level={5}>Current surveys</Title>

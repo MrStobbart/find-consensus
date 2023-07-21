@@ -1,6 +1,7 @@
 import { kv } from "@vercel/kv";
 import {
   Option,
+  Results,
   Survey,
   SurveyUser,
   Vote,
@@ -10,7 +11,7 @@ import {
   surveysKey,
 } from "../types";
 
-export const getVotes = async (
+export const getVotesForUser = async (
   surveyName: string,
   userName: string
 ): Promise<Vote[]> => {
@@ -21,9 +22,38 @@ export const getVotes = async (
   const votes = await kv.mget<number[]>(...votesKeys);
 
   return options.map(({ name }, index) => ({
+    userName,
     optionName: name,
     value: votes[index],
   }));
+};
+
+export const getResults = async (surveyName: string): Promise<Results> => {
+  const [users, options] = await Promise.all([
+    getUsers(surveyName),
+    getOptions(surveyName),
+  ]);
+  const votesKeys = users.flatMap((user) =>
+    options.map((option) => ({
+      votesKey: getVotesKey(surveyName, user.name, option.name),
+      userName: user.name,
+      optionName: option.name,
+    }))
+  );
+
+  const votes = await kv.mget<number[]>(
+    ...votesKeys.map(({ votesKey }) => votesKey)
+  );
+
+  return {
+    users,
+    options,
+    votes: votesKeys.map(({ userName, optionName }, index) => ({
+      userName: userName,
+      optionName: optionName,
+      value: votes[index],
+    })),
+  };
 };
 
 export const getVotesForOption = async (
@@ -31,7 +61,7 @@ export const getVotesForOption = async (
   userName: string,
   optionName: string
 ) => {
-  const votes = await getVotes(surveyName, userName);
+  const votes = await getVotesForUser(surveyName, userName);
   return votes.filter((vote) => vote.optionName === optionName);
 };
 

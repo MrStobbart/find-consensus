@@ -12,6 +12,7 @@ import Title from "antd/es/typography/Title";
 import { TextInput } from "../../../../components/TextInput";
 import Paragraph from "antd/es/typography/Paragraph";
 import { useRouter } from "next/navigation";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export default function SurveyVoting({
   params: { surveyName, userName },
@@ -68,7 +69,7 @@ export default function SurveyVoting({
         }}
       />
       {isLoading || isLoadingVotes ? (
-        <Paragraph>Loading...</Paragraph>
+        <LoadingOutlined />
       ) : (
         options.map((option, index) => (
           <div key={option.name + index}>

@@ -62,7 +62,7 @@ export default function OptionVote({
       setData: setVotes,
       clientUpdater: (oldData, newValue) => {
         const updatedData = [...oldData];
-        updatedData[voteIndex] = newValue;
+        updatedData[voteIndex] = { ...newValue, userName };
         return updatedData;
       },
     });
