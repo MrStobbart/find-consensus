@@ -35,7 +35,9 @@ export default function SurveyVoting({
 
   return (
     <>
-      <Title level={4}>Voting for participant {userName}</Title>
+      <Title level={4}>
+        Voting for participant {decodeURIComponent(userName)}
+      </Title>
       <Paragraph>
         Here you can see all currently created options declare you restiance
         against the different possibilites.
