@@ -50,10 +50,18 @@ export function TextInput({
     return true;
   };
 
+  const onSubmit = () => {
+    if (validateInput(input)) {
+      onClick(input);
+      setInput("");
+    }
+  };
+
   return (
     <Space direction="vertical" style={{ width }}>
       <Title level={5}>{title}</Title>
       <Input
+        onPressEnter={onSubmit}
         placeholder={inputPlaceholder}
         value={input}
         onChange={({ target: { value } }) => {
@@ -65,16 +73,7 @@ export function TextInput({
         maxLength={maxLength}
       />
       {error.length > 0 && <Alert message={error} type="error" />}
-      <Button
-        onClick={() => {
-          if (validateInput(input)) {
-            onClick(input);
-            setInput("");
-          }
-        }}
-      >
-        Create
-      </Button>
+      <Button onClick={onSubmit}>Create</Button>
     </Space>
   );
 }
