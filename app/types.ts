@@ -21,7 +21,7 @@ export type VoteIds = string;
 export type Votes = Vote[];
 export type Vote = {
   userName: string;
-  optionName: string;
+  option: Option;
   value: VoteValue | null;
 };
 // export type VoteValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;

@@ -2,7 +2,7 @@
 
 // https://github.com/ant-design/ant-design/discussions/43348#discussioncomment-6349922
 import Button from "antd/es/button";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Options, Votes } from "../../../../types";
 import { sendData, useFetch } from "../../../../clientHelpers";
 import { PostOptionRequestBody } from "../../../../api/survey/[surveyName]/option/route";
@@ -19,16 +19,10 @@ export default function SurveyVoting({
 }: {
   params: { surveyName: string; userName: string };
 }) {
-  const [options, setOptions] = useState<Options>([]);
   const [votes, setVotes] = useState<Votes>([]);
   const router = useRouter();
 
-  const [isLoading] = useFetch<Options>({
-    url: `/api/survey/${surveyName}/options`,
-    setData: setOptions,
-  });
-
-  const [isLoadingVotes] = useFetch<Votes>({
+  const [isLoading] = useFetch<Votes>({
     url: `/api/survey/${surveyName}/${userName}/votes`,
     setData: setVotes,
   });
@@ -58,32 +52,35 @@ export default function SurveyVoting({
         inputPlaceholder="Name of the option"
         maxLength={50}
         onClick={(newValue) => {
-          const body: PostOptionRequestBody = { name: newValue };
+          const body: PostOptionRequestBody = {
+            option: { name: newValue },
+            userName,
+            value: null,
+          };
           sendData({
             url: `/api/survey/${surveyName}/option`,
             method: "POST",
             body,
-            setData: setOptions,
-            clientUpdater(options, newOption) {
-              const updatedOptions = [newOption, ...(options || [])];
+            setData: setVotes,
+            clientUpdater(votes, newVote) {
+              const updatedOptions = [newVote, ...(votes || [])];
               return updatedOptions;
             },
           });
         }}
       />
-      {isLoading || isLoadingVotes ? (
+      {isLoading ? (
         <LoadingOutlined />
       ) : (
-        options.map((option, index) => (
-          <div key={option.name + index}>
+        votes.map((vote, index) => (
+          <div key={vote.option.name + index}>
             <Divider />
             <OptionVote
               surveyName={surveyName}
               userName={userName}
-              option={option}
+              option={vote.option}
               votes={votes}
               setVotes={setVotes}
-              setOptions={setOptions}
             />
           </div>
         ))

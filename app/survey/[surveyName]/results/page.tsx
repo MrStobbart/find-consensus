@@ -38,7 +38,7 @@ export default function Results({
       const usersThatHaveVoted: string[] = [];
       const votesForOption = votes
         .filter(
-          (vote) => vote.optionName === option.name && vote.value !== null
+          (vote) => vote.option.name === option.name && vote.value !== null
         )
         .map((vote) => {
           usersThatHaveVoted.push(vote.userName);

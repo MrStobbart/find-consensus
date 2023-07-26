@@ -33,7 +33,6 @@ type OptionVoteProps = {
   surveyName: string;
   userName: string;
   setVotes: Dispatch<SetStateAction<Votes>>;
-  setOptions: Dispatch<SetStateAction<Options>>;
   votes: Votes;
 };
 
@@ -43,16 +42,15 @@ export default function OptionVote({
   userName,
   votes,
   setVotes,
-  setOptions,
 }: OptionVoteProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const voteIndex = votes.findIndex((vote) => vote.optionName === option.name);
+  const voteIndex = votes.findIndex((vote) => vote.option.name === option.name);
   const currentVoteValue = votes[voteIndex]?.value;
 
   const setData = (newValue: number) => {
     const body: PutVoteRequestBody = {
-      optionName: option.name,
+      option,
       value: newValue,
     };
     sendData({
@@ -68,16 +66,16 @@ export default function OptionVote({
     });
   };
 
-  // TODO edit option names with nanoid?
-
   const deleteOption = () => {
     sendData({
       url: `/api/survey/${surveyName}/option`,
       method: "DELETE",
-      body: option,
-      setData: setOptions,
-      clientUpdater(options, optionToDelete) {
-        return options?.filter((option) => option.name !== optionToDelete.name);
+      body: votes[voteIndex],
+      setData: setVotes,
+      clientUpdater(votes, voteToDelete) {
+        return votes?.filter(
+          (vote) => vote.option.name !== voteToDelete.option.name
+        );
       },
     });
   };

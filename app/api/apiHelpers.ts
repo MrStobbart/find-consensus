@@ -11,6 +11,7 @@ import {
   surveysKey,
 } from "../types";
 
+// All options with votes for the user
 export const getVotesForUser = async (
   surveyName: string,
   userName: string
@@ -21,9 +22,9 @@ export const getVotesForUser = async (
   );
   const votes = await kv.mget<number[]>(...votesKeys);
 
-  return options.map(({ name }, index) => ({
+  return options.map((option, index) => ({
     userName,
-    optionName: name,
+    option,
     value: votes[index],
   }));
 };
@@ -37,7 +38,7 @@ export const getResults = async (surveyName: string): Promise<Results> => {
     options.map((option) => ({
       votesKey: getVotesKey(surveyName, user.name, option.name),
       userName: user.name,
-      optionName: option.name,
+      option,
     }))
   );
 
@@ -48,9 +49,9 @@ export const getResults = async (surveyName: string): Promise<Results> => {
   return {
     users,
     options,
-    votes: votesKeys.map(({ userName, optionName }, index) => ({
+    votes: votesKeys.map(({ userName, option }, index) => ({
       userName: userName,
-      optionName: optionName,
+      option,
       value: votes[index],
     })),
   };
@@ -62,7 +63,7 @@ export const getVotesForOption = async (
   optionName: string
 ) => {
   const votes = await getVotesForUser(surveyName, userName);
-  return votes.filter((vote) => vote.optionName === optionName);
+  return votes.filter((vote) => vote.option.name === optionName);
 };
 
 export const getUsers = async (surveyName: string) => {
