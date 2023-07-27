@@ -28,7 +28,6 @@ export default function SurveyComponent({
   });
 
   // TODO? validate uniqueness of rusernames
-  // TODO! Create a button for the name and one for deleting so it is more clear that you can open and delete
   // TODO where is the questionmark in the survey name
   return (
     <>

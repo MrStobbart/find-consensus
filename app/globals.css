@@ -1,0 +1,6 @@
+button,
+span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}

@@ -7,7 +7,7 @@ import Card from "antd/es/card";
 import Modal from "antd/es/modal";
 import Row from "antd/es/row";
 import Col from "antd/es/col";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, LoginOutlined } from "@ant-design/icons";
 
 export type ItemDisplayProps = {
   name: string;
@@ -27,17 +27,16 @@ export function ItemDisplay({ name, onOpen, onDelete }: ItemDisplayProps) {
           padding: "4px 11px",
           border: "1px solid #d9d9d9",
           justifyContent: "space-between",
+          alignItems: "center",
+          gap: "8px",
         }}
       >
+        <Col>{name}</Col>
         <Col>
-          <Button onClick={onOpen} type="text">
-            {name}
-          </Button>
-        </Col>
-        <Col>
+          <Button onClick={onOpen} shape="circle" icon={<LoginOutlined />} />
           <Button
+            style={{ marginLeft: "4px" }}
             icon={<DeleteOutlined />}
-            type="text"
             shape="circle"
             onClick={() => setIsModalOpen(true)}
           />
