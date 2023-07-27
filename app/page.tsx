@@ -23,7 +23,7 @@ export default function StartPage() {
     setData: setSurveys,
   });
 
-  // TODO validate uniqueness of survey names
+  // TODO? validate uniqueness of survey names
   return (
     <>
       <Title level={4}>Find consensus app</Title>

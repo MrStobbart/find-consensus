@@ -16,7 +16,6 @@ export async function POST(request: Request) {
     );
   }
 
-  // TODO validation
   const length = await kv.rpush(surveysKey, survey);
   await kv.set(getSurveyIndexKey(survey.name), length - 1);
   const surveys = await getSurveys();

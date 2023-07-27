@@ -1,4 +1,4 @@
-import { Option, Options, VoteValue, Votes } from "../../../../types";
+import { Option, Options, Vote, VoteValue } from "../../../../types";
 import Button from "antd/es/button";
 import { Dispatch, SetStateAction, useState } from "react";
 import { sendData } from "../../../../clientHelpers";
@@ -11,7 +11,6 @@ import Modal from "antd/es/modal";
 type Opposition = {
   value: VoteValue;
   color: string;
-  //   tooltip: string; // TODO
 };
 
 export const oppositions: Opposition[] = [
@@ -32,8 +31,8 @@ type OptionVoteProps = {
   option: Option;
   surveyName: string;
   userName: string;
-  setVotes: Dispatch<SetStateAction<Votes>>;
-  votes: Votes;
+  setVotes: Dispatch<SetStateAction<Vote[]>>;
+  votes: Vote[];
 };
 
 export default function OptionVote({

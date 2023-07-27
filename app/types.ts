@@ -18,7 +18,6 @@ export const getOptionsKey = (surveyName: string) =>
 
 // [SurveyId][delimiter][userName][delimiter]votes
 export type VoteIds = string;
-export type Votes = Vote[];
 export type Vote = {
   userName: string;
   option: Option;

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useFetch } from "../../../clientHelpers";
-import { Options, Results, VoteValue, Votes } from "../../../types";
+import { Options, Results, VoteValue } from "../../../types";
 import Title from "antd/es/typography/Title";
 import Row from "antd/es/row";
 import Col from "antd/es/col";
@@ -72,7 +72,7 @@ export default function Results({
     })
     .sort((prev, next) => prev.average - next.average);
 
-  // TODO maybe show missing participants here
+  // TODO? show missing participants here
   return (
     <>
       <Row>
@@ -106,6 +106,7 @@ export default function Results({
                 </Col>
                 <Col span={8}>
                   {hasVotes ? (
+                    // TODO style like the voting for better readability
                     <Tooltip
                       placement="bottom"
                       title={votesForOption.join(", ")}

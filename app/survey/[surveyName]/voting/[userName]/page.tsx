@@ -3,7 +3,7 @@
 // https://github.com/ant-design/ant-design/discussions/43348#discussioncomment-6349922
 import Button from "antd/es/button";
 import { use, useEffect, useState } from "react";
-import { Options, Votes } from "../../../../types";
+import { Options, Vote } from "../../../../types";
 import { sendData, useFetch } from "../../../../clientHelpers";
 import { PostOptionRequestBody } from "../../../../api/survey/[surveyName]/option/route";
 import OptionVote from "./optionVote";
@@ -19,10 +19,10 @@ export default function SurveyVoting({
 }: {
   params: { surveyName: string; userName: string };
 }) {
-  const [votes, setVotes] = useState<Votes>([]);
+  const [votes, setVotes] = useState<Vote[]>([]);
   const router = useRouter();
 
-  const [isLoading] = useFetch<Votes>({
+  const [isLoading] = useFetch<Vote[]>({
     url: `/api/survey/${surveyName}/${userName}/votes`,
     setData: setVotes,
   });

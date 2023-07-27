@@ -11,6 +11,11 @@ import {
   surveysKey,
 } from "../types";
 
+async function safeMget<T>(keys: string[]) {
+  if (keys.length === 0) return [];
+  return kv.mget<T[]>(...keys);
+}
+
 // All options with votes for the user
 export const getVotesForUser = async (
   surveyName: string,
@@ -20,7 +25,7 @@ export const getVotesForUser = async (
   const votesKeys = options.map(({ name }) =>
     getVotesKey(surveyName, userName, name)
   );
-  const votes = await kv.mget<number[]>(...votesKeys);
+  const votes = await safeMget<number>(votesKeys);
 
   return options.map((option, index) => ({
     userName,
@@ -42,8 +47,8 @@ export const getResults = async (surveyName: string): Promise<Results> => {
     }))
   );
 
-  const votes = await kv.mget<number[]>(
-    ...votesKeys.map(({ votesKey }) => votesKey)
+  const votes = await safeMget<number>(
+    votesKeys.map(({ votesKey }) => votesKey)
   );
 
   return {
