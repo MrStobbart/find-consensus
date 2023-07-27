@@ -13,9 +13,15 @@ export type ItemDisplayProps = {
   name: string;
   onOpen: () => void;
   onDelete: () => void;
+  openLabel: string;
 };
 
-export function ItemDisplay({ name, onOpen, onDelete }: ItemDisplayProps) {
+export function ItemDisplay({
+  name,
+  onOpen,
+  onDelete,
+  openLabel = "Open",
+}: ItemDisplayProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -32,12 +38,12 @@ export function ItemDisplay({ name, onOpen, onDelete }: ItemDisplayProps) {
         }}
       >
         <Col>{name}</Col>
-        <Col>
-          <Button onClick={onOpen} shape="circle" icon={<LoginOutlined />} />
+        <Col style={{ display: "inline-flex" }}>
+          <Button onClick={onOpen}>{openLabel}</Button>
           <Button
             style={{ marginLeft: "4px" }}
+            type="dashed"
             icon={<DeleteOutlined />}
-            shape="circle"
             onClick={() => setIsModalOpen(true)}
           />
         </Col>

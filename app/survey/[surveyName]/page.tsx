@@ -66,6 +66,7 @@ export default function SurveyComponent({
             <ItemDisplay
               key={user.name}
               name={user.name}
+              openLabel="Vote"
               onOpen={() => {
                 router.push(
                   `/survey/${surveyName}/voting/${encodeURIComponent(

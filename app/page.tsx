@@ -80,6 +80,7 @@ export default function StartPage() {
             {surveys.map((survey, index) => (
               <ItemDisplay
                 key={survey.name + index}
+                openLabel="Participate"
                 name={survey.name}
                 onOpen={() => {
                   router.push(`/survey/${encodeURIComponent(survey.name)}`);
