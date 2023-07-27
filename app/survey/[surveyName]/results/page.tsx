@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useFetch } from "../../../clientHelpers";
-import { Options, Results, VoteValue } from "../../../types";
+import { Results } from "../../../types";
 import Title from "antd/es/typography/Title";
 import Row from "antd/es/row";
 import Col from "antd/es/col";
@@ -12,7 +12,7 @@ import { oppositions } from "../voting/[userName]/optionVote";
 import Paragraph from "antd/es/typography/Paragraph";
 import { LoadingOutlined } from "@ant-design/icons";
 import Tooltip from "antd/es/tooltip";
-import { primaryColor } from "../../../themeConfig";
+import Table from "antd/es/table";
 
 export default function Results({
   params: { surveyName },
@@ -42,7 +42,7 @@ export default function Results({
         )
         .map((vote) => {
           usersThatHaveVoted.push(vote.userName);
-          return vote.value as VoteValue;
+          return vote;
         });
 
       const missingUserNames = users
@@ -59,7 +59,7 @@ export default function Results({
       const hasVotes = votesForOption.length > 0;
 
       const average = hasVotes
-        ? votesForOption.reduce((prev, curr) => prev + curr, 0) /
+        ? votesForOption.reduce((prev, curr) => prev + curr.value!, 0) /
           votesForOption.length
         : 10;
       return {
@@ -72,7 +72,6 @@ export default function Results({
     })
     .sort((prev, next) => prev.average - next.average);
 
-  // TODO? show missing participants here
   return (
     <>
       <Row>
@@ -95,6 +94,9 @@ export default function Results({
           hasVotes,
           missingUserNames,
         }) => {
+          const color = oppositions.find(
+            ({ value }) => average <= value
+          )?.color;
           return (
             <div key={optionName}>
               <Divider />
@@ -106,18 +108,33 @@ export default function Results({
                 </Col>
                 <Col span={8}>
                   {hasVotes ? (
-                    // TODO style like the voting for better readability
                     <Tooltip
                       placement="bottom"
-                      title={votesForOption.join(", ")}
-                      color={primaryColor}
+                      title={
+                        <Table
+                          size="small"
+                          pagination={false}
+                          dataSource={votesForOption}
+                          columns={[
+                            {
+                              title: "User",
+                              dataIndex: "userName",
+                              key: "userName",
+                            },
+                            {
+                              title: "Vote",
+                              dataIndex: "value",
+                              key: "value",
+                              align: "center",
+                            },
+                          ]}
+                        />
+                      }
+                      color="white"
                     >
                       <Button
-                        size="small"
                         style={{
-                          color: oppositions.find(
-                            ({ value }) => average <= value
-                          )?.color,
+                          backgroundColor: color + "44",
                         }}
                       >
                         {Math.round(average * 10) / 10}
@@ -136,3 +153,20 @@ export default function Results({
     </>
   );
 }
+
+// <Tooltip
+//                       placement="bottom"
+//                       title={
+//                         <List
+//                           size="small"
+//                           dataSource={votesForOption}
+//                           bordered
+//                           renderItem={({ userName, value }) => (
+//                             <List.Item>
+//                               {userName}: {value}
+//                             </List.Item>
+//                           )}
+//                         ></List>
+//                       }
+//                       color="white"
+//                     ></Tooltip>

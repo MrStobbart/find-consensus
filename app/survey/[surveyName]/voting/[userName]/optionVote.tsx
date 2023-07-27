@@ -14,17 +14,17 @@ type Opposition = {
 };
 
 export const oppositions: Opposition[] = [
-  { value: 0, color: "#78BE14" },
-  { value: 1, color: "#86B712" },
-  { value: 2, color: "#93B010" },
-  { value: 3, color: "#A1AA0E" },
-  { value: 4, color: "#AEA30C" },
-  { value: 5, color: "#BC9C0A" },
-  { value: 6, color: "#C99508" },
-  { value: 7, color: "#D78E06" },
-  { value: 8, color: "#E48804" },
-  { value: 9, color: "#F28102" },
-  { value: 10, color: "#FF7A00" },
+  { value: 0, color: "#22C21E" },
+  { value: 1, color: "#6BD643" },
+  { value: 2, color: "#9CE040" },
+  { value: 3, color: "#C9EE39" },
+  { value: 4, color: "#EBEB23" },
+  { value: 5, color: "#F0D12D" },
+  { value: 6, color: "#FFB60C" },
+  { value: 7, color: "#FF9819" },
+  { value: 8, color: "#FF771F" },
+  { value: 9, color: "#FF571E" },
+  { value: 10, color: "#EC100D" },
 ];
 
 type OptionVoteProps = {
