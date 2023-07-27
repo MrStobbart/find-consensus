@@ -28,10 +28,9 @@ export default function SurveyComponent({
   });
 
   // TODO? validate uniqueness of rusernames
-  // TODO where is the questionmark in the survey name
   return (
     <>
-      <Title level={4}>Survey: {decodeURI(surveyName)}</Title>
+      <Title level={4}>Survey: {decodeURIComponent(surveyName)}</Title>
       <Paragraph>
         Every participant can create new options and should vote on all of them.
       </Paragraph>
@@ -68,7 +67,11 @@ export default function SurveyComponent({
               key={user.name}
               name={user.name}
               onOpen={() => {
-                router.push(`/survey/${surveyName}/voting/${user.name}`);
+                router.push(
+                  `/survey/${surveyName}/voting/${encodeURIComponent(
+                    user.name
+                  )}`
+                );
               }}
               onDelete={() =>
                 sendData({

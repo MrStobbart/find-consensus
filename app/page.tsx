@@ -82,7 +82,7 @@ export default function StartPage() {
                 key={survey.name + index}
                 name={survey.name}
                 onOpen={() => {
-                  router.push(`/survey/${encodeURI(survey.name)}`);
+                  router.push(`/survey/${encodeURIComponent(survey.name)}`);
                 }}
                 onDelete={() =>
                   sendData({
