@@ -8,12 +8,14 @@ import Modal from "antd/es/modal";
 import Row from "antd/es/row";
 import Col from "antd/es/col";
 import { DeleteOutlined, LoginOutlined } from "@ant-design/icons";
+import Divider from "antd/es/divider";
 
 export type ItemDisplayProps = {
   name: string;
   onOpen: () => void;
   onDelete: () => void;
   openLabel: string;
+  index: number;
 };
 
 export function ItemDisplay({
@@ -21,17 +23,17 @@ export function ItemDisplay({
   onOpen,
   onDelete,
   openLabel = "Open",
+  index,
 }: ItemDisplayProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
+      {index !== 0 && <Divider style={{ margin: "8px 0px" }} />}
       <Row
         style={{
-          backgroundColor: "white",
           borderRadius: "6px",
           padding: "4px 11px",
-          border: "1px solid #d9d9d9",
           justifyContent: "space-between",
           alignItems: "center",
           gap: "8px",

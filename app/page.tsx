@@ -12,6 +12,7 @@ import { TextInput } from "./components/TextInput";
 import { ItemDisplay } from "./components/ItemDisplay";
 import Link from "antd/es/typography/Link";
 import { LoadingOutlined } from "@ant-design/icons";
+import { ItemsDisplay } from "./components/ItemsDisplay";
 const { Title, Paragraph } = Typography;
 
 export default function StartPage() {
@@ -76,12 +77,13 @@ export default function StartPage() {
       ) : (
         <>
           <Title level={5}>Current surveys</Title>
-          <Space direction="vertical" wrap={true}>
+          <ItemsDisplay>
             {surveys.map((survey, index) => (
               <ItemDisplay
                 key={survey.name + index}
                 openLabel="Participate"
                 name={survey.name}
+                index={index}
                 onOpen={() => {
                   router.push(`/survey/${encodeURIComponent(survey.name)}`);
                 }}
@@ -100,7 +102,7 @@ export default function StartPage() {
                 }
               />
             ))}
-          </Space>
+          </ItemsDisplay>
         </>
       )}
     </>

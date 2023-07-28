@@ -6,12 +6,12 @@ import { sendData, useFetch } from "../../clientHelpers";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Typography from "antd/es/typography";
-import Space from "antd/es/space";
 import Divider from "antd/es/divider";
 import { TextInput } from "../../components/TextInput";
 import { ItemDisplay } from "../../components/ItemDisplay";
 import { LoadingOutlined } from "@ant-design/icons";
 import { SurveyUser } from "../../types";
+import { ItemsDisplay } from "../../components/ItemsDisplay";
 const { Title, Paragraph } = Typography;
 
 export default function SurveyComponent({
@@ -61,11 +61,12 @@ export default function SurveyComponent({
         !surveyUsers && <Paragraph>Something went wrong: {message}</Paragraph>
       )}
       {surveyUsers && (
-        <Space direction="vertical">
-          {surveyUsers.map((user) => (
+        <ItemsDisplay>
+          {surveyUsers.map((user, index) => (
             <ItemDisplay
               key={user.name}
               name={user.name}
+              index={index}
               openLabel="Vote"
               onOpen={() => {
                 router.push(
@@ -89,7 +90,7 @@ export default function SurveyComponent({
               }
             />
           ))}
-        </Space>
+        </ItemsDisplay>
       )}
       <Divider />
       <Button
